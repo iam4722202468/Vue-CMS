@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './App.vue'
+import App from '../Vue-CMS-Data/App.vue'
 import router from './router'
 import VueHighlightJS from 'vue-highlightjs'
 import VueCarousel from 'vue-carousel';

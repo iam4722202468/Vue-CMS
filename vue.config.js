@@ -6,8 +6,7 @@ const { join } = require('path')
 
 const isDirectory = source => lstatSync(source).isFile()
 const dirs = p => readdirSync(p).filter(f => statSync(join(p, f)).isFile())
-
-const someFileContents = JSON.stringify(dirs('./Vue-CMS-Data/views'))
+const fileNames = JSON.stringify(dirs('./Vue-CMS-Data/views'))
 
 module.exports = {
   lintOnSave: false,
@@ -18,7 +17,7 @@ module.exports = {
     plugins: [
       new CopyWebpackPlugin([{ from: 'Vue-CMS-Data/public', to: '' }]),
       new webpack.DefinePlugin({
-          paths: someFileContents,
+          paths: fileNames,
         })
     ],
   },
