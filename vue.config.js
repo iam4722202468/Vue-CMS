@@ -1,5 +1,6 @@
 module.exports = {
   lintOnSave: false,
+  assetsDir: "Vue-CMS-Data",
   devServer: {
     proxy: {
       '/api': {

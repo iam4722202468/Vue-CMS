@@ -2,21 +2,15 @@
 node_modules
 /dist
 
-out.zip
-writeups
-public/*
-!/public/favicon.ico
-!/public/example
-!/public/index.html
+/public/example
 
-src/views/*
-!src/views/exampleStatic.vue
-!src/views/exampleDynamic.vue
-!src/views/examplePDF.vue
+Vue-CMS-Data
 
-server/googleReader
-server/databaseFiles/*
-!server/databaseFiles/example.json
+src/views/exampleStatic.vue
+src/views/exampleDynamic.vue
+src/views/examplePDF.vue
+
+server/databaseFiles/example.json
 
 # local env files
 .env.local

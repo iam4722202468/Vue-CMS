@@ -25,5 +25,7 @@ yarn run test
 yarn run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Setup
+```
+git clone git@github.com:iam4722202468/Vue-CMS-data.git
+```

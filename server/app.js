@@ -1,6 +1,5 @@
 const express = require('express');
 const os = require('os');
-const portfolio = require('./googleReader/index');
 const cookieParser = require('cookie-parser')
 
 const MongoClient = require('mongodb').MongoClient;
@@ -32,12 +31,6 @@ app.get('/api/getPage', (req, res) => {
         res.send(result);
     });
   }); 
-});
-
-app.get('/api/portfolio', (req, res) => {
-  portfolio.getPortfolioZip((response) => {
-    res.send(response);
-  });
 });
 
 app.listen(8081, () => console.log('Listening on port 8081!'));

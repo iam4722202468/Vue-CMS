@@ -1,11 +1,11 @@
 {
-  "name": "website",
+  "name": "VueCMS",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "npm-run-all --parallel server client",
     "serve": "npm-run-all --parallel server client",
-    "client": "vue-cli-service serve",
+    "client": "vue-cli-service serve --port 3000",
     "server": "nodemon --watch server server/app.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"

@@ -1,6 +1,5 @@
 <style lang="scss" scoped>
 .widget {
-  border: 1px solid black;
   min-width: 300px;
 }
 
@@ -73,7 +72,7 @@
 
 <template>
   <div>
-    <div>
+    <div v-if="admin">
       New widget +
     </div>
     <div class="widget" :style="item.style">
@@ -173,14 +172,14 @@
         <p>{{ item.text }}</p>
         <b-button v-for="link in item.links" style="margin-right: 10px;" variant="success" :href="link.url">{{link.title}}</b-button>
       </b-jumbotron>
-      <div v-if="editing" v-on:click="change" :item="item">
+      <div v-if="editing && admin" v-on:click="change" :item="item">
         Save changes
       </div>
-      <div v-if="!editing" v-on:click="change" :item="item">
+      <div v-if="!editing && admin" v-on:click="change" :item="item">
         Edit this widget
       </div>
     </div>
-    <div>
+    <div v-if="admin">
       New widget +
     </div>
   </div>
@@ -195,7 +194,8 @@ export default {
   props: ['item', 'path', 'data', 'page'],
   data() {
     return {
-      editing: false
+      editing: false,
+      admin: false
     }
   },
   components: {
