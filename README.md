@@ -27,5 +27,6 @@ yarn run lint
 
 ### Setup
 ```
-git clone git@github.com:iam4722202468/Vue-CMS-data.git
+Clone this repo inside this folder
+https://github.com/iam4722202468/Vue-CMS-Data
 ```
