@@ -6,7 +6,6 @@
     margin-top: 2em;
     border: 1px solid black;
     "
-    
     ></pdf>
   </div>
 </template>

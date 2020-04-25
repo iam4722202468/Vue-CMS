@@ -40,11 +40,26 @@
   line-height: 0.7em;
   font-size: 0.9em;
 }
+
+.collapsed {
+  visibility: collapse;
+}
+
+.more:before {
+    content: "...";
+}
+
+.more {
+    letter-spacing: 20px;
+    text-align: center;
+    display: block;
+    padding-top: 0px;
+}
 </style>
 
 <template>
   <div>
-      <div v-if="extended" class="repo-stats">
+    <div class="repo-stats" :class="{'collapsed': !extended}">
         <div v-for="item in data">
           <a target="_blank" :href="item['html_url']" class="git-commit">
             <img class="git-image" v-if="item['committer']" :src="item['committer']['avatar_url']" alt="User Icon">
@@ -56,6 +71,8 @@
               <small>{{ item['commit']['author']['email'] }}</small>
             </div>
           </a>
+        </div>
+        <div class="more git-commit">
         </div>
       </div>
   </div>
@@ -75,7 +92,7 @@ export default {
   },
   data() {
     return {
-      extended: true,
+      extended: true
     }
   },
 }

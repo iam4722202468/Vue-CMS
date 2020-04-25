@@ -24,8 +24,8 @@
 <template>
   <div>
     <div class="flex" v-for="row,rowIndex in data">
-      <div style="display: grid; flex-basis: 0;" v-bind:style="{ 'flex-grow': item.width || 1 }"  v-for="item, itemIndex in row">
-        <RenderWidget class="widget-padding" :page="page" :data="data" :item="item" :path="[dataIndex, rowIndex, itemIndex]" />
+      <div style="display: grid; flex-basis: 0; width: 100%;"v-bind:style="{ 'flex-grow': item.width || 1 }"  v-for="item, itemIndex in row">
+        <RenderWidget class="widget-padding" style="display:grid" :page="page" :data="data" :item="item" :path="[dataIndex, rowIndex, itemIndex]" />
       </div>
     </div>
   </div>

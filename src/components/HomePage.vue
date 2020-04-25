@@ -1,32 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-menu hide-small">
-      <b-button
-        squared
-        variant="outline-dark"
-        class="menu-item"
-        v-on:keyup.enter="scrollToAnchor"
-        tabindex=0
-        v-on:click="scrollToAnchor"
-        :anchor="item.title"
-        v-for="item in pageData.page"
-        v-bind:key="makeHashId(item)">
-        {{ item.title }}
-      </b-button>
-      <!--<RenderTags :pageId="pageId" />-->
-    </div>
     <div class="flex-body">
       <div class="page-body">
-        <b-jumbotron
-          bg-variant="light" text-variant="dark" border-variant="success"
-          :fluid=true
-          :header="pageData.title" :lead="pageData.desc"
-          style="padding: 2em">
-
-          <hr v-if="pageData.links !== undefined">
-          <b-button v-for="link in pageData.links" v-bind:key="makeHashId(link)" style="margin-right:10px;" variant="success" :href="link.url">{{link.text}}</b-button>
-        </b-jumbotron>
-
         <div :id="pageEntry.title" class="scroll-item" v-for="pageEntry in pageData.page">
           <h2>{{ pageEntry.title }}</h2>
           <RenderWidgets :data="pageEntry.body"></RenderWidgets>
@@ -53,7 +28,7 @@ Vue.component('doughnut-chart', {
 })
 
 export default {
-  name: 'StaticPage',
+  name: 'HomePage',
   data() {
     return {
       tags: [],
@@ -167,12 +142,6 @@ export default {
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
-  }
-
-  .scroll-item:before {
-    height: 3em;
-    display: block;
-    content: '';
   }
 
   .menu-item {

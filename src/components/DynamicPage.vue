@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-menu hide-small">
-      <b-button
+      <!--b-button
         squared
         variant="outline-dark"
         class="menu-item"
@@ -9,30 +9,45 @@
         tabindex=0
         v-on:click="scrollToAnchor"
         :anchor="item.title"
-        v-for="item in pageData.page">
+        v-for="item in pageData.page"
+        v-bind:key="makeHashId(item)">
         {{ item.title }}
-      </b-button>
+      </b-button-->
       <div class="hide-small" style="margin: 10px; margin-bottom: -20px; margin-right: 0px;">
-        <doughnut-chart :repoName="repoName" />
+        <!--doughnut-chart :repoName="repoName" /-->
       </div>
       <!--<RenderTags :pageId="pageId" />-->
     </div>
-    <div class="flex-body">
-      <div class="page-body">
-        <b-jumbotron
-          bg-variant="light" text-variant="dark" border-variant="success"
-          :fluid=true
-          :header="pageData.title" :lead="pageData.desc">
-          <hr v-if="pageData.links !== undefined">
-          <b-button v-for="link in pageData.links" style="margin-right:10px;" variant="success" :href="link.url">{{link.text}}</b-button>
-        </b-jumbotron>
 
+    <b-jumbotron
+      :style="jumbotronTitleStyleGen(pageData.bg)"
+      border-variant="success"
+      :fluid=true
+      :header="pageData.title" :lead="pageData.desc"
+      style="padding: 2em"
+      class="jumbotron-title"
+      >
+      <hr v-if="pageData.links !== undefined">
+      <b-button v-for="link in pageData.links" v-bind:key="makeHashId(link)" style="margin-right:10px;" variant="success" :href="link.url">{{link.text}}</b-button>
+    </b-jumbotron>
+
+    <div class="flex-body">
+      <div class="hide-medium side-menu">
+      </div>
+
+      <div class="page-body">
         <div :id="pageEntry.title" class="scroll-item" v-for="pageEntry, pageEntryIndex in pageData.page">
           <h2>{{ pageEntry.title }}</h2>
           <RenderWidgets :data="pageEntry.body" :dataIndex="pageEntryIndex" :page="pageData"></RenderWidgets>
         </div>
       </div>
-      <RepoStats class="hide-medium" v-if="gitCommitData" :data="gitCommitData" />
+
+      <div class="hide-medium side-menu">
+        <!--RepoStats v-if="gitCommitData" :data="gitCommitData" /-->
+        <div style="margin: 10px; margin-bottom: -20px; margin-right: 0px;">
+          <!--doughnut-chart style="padding-top: 50px" :repoName="repoName" /-->
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +61,7 @@ import RepoStats from '@/components/RepoStats.vue'
 import Vue from 'vue';
 import VueCharts from 'vue-chartjs'
 import { Doughnut } from 'vue-chartjs'
+import crypto from 'crypto';
 
 Vue.component('doughnut-chart', {
   extends: Doughnut,
@@ -112,7 +128,7 @@ export default {
       pageLoadPromise.push(axios
         .get(`https://api.github.com/repos/${this.repoName}/commits`)
         .then(response => {
-          this.gitCommitData = response.data;
+          this.gitCommitData = response.data.slice(0,2);
         }));
     }
 
@@ -136,6 +152,26 @@ export default {
       })
   },
   methods: {
+    makeHashId: function(obj) {
+      return crypto.createHash('md5').update(JSON.stringify(obj)).digest('hex')
+    },
+
+    jumbotronTitleStyleGen: function(titleURL, backgroundColor, textColor) {
+      if (titleURL) {
+        return {
+          'background-image': `url(titleURL)`,
+          'background-color': backgroundColor || "#f8f9fa",
+          'color': textColor || "#f8f9fa",
+
+        }
+      } else {
+        return {
+          'background-color': "#f8f9fa",
+          'color': '#343a40'
+        }
+      }
+    },
+
     scrollToAnchor(e) {
       const anchorId = e.target.getAttribute('anchor');
 
@@ -166,8 +202,6 @@ export default {
   }
 
   .page-menu {
-    width: 280px;
-    position: fixed;
     text-align: center;
     padding-right: 2px;
     overflow-x: hidden;
@@ -193,9 +227,49 @@ export default {
     margin-bottom:2em;
   }
 
-  .flex-body {
-    padding-left: 280px;
+  .side-menu {
+    width: 100%;
+    max-width: 12%;
+  }
 
+  .display-3 {
+    @media only screen and (max-width: 991px) {
+      font-size: 2em;
+    }
+
+    @media only screen and (max-width: 550px) {
+      padding-right: 20px;
+      padding-left: 0px;
+    }
+  }
+
+  .jumbotron {
+    padding-bottom: 0px;
+    background-color: black
+  }
+
+  .jumbotron-title {
+    margin-left: 15%;
+    margin-right: 15%;
+
+    @media only screen and (max-width: 1300px) {
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+
+    @media only screen and (max-width: 991px) {
+      margin-left: 0%;
+      margin-right: 0%;
+      text-align:center;
+    }
+
+    @media only screen and (max-width: 550px) {
+      margin-left: 0%;
+      margin-right: 0%;
+    }
+  }
+
+  .flex-body {
     @media only screen and (max-width: 991px) {
       padding-left: 0px;
     }
