@@ -15,16 +15,12 @@
 
 <template>
   <div>
-    {{ item.text }}
-
-  <!--
-    
-  <div v-if="!editing">
-    {{ item.text }}
-  </div>
+    <div v-if="!editing">
+      {{ item.text }}
+    </div>
     <div v-else>
-    <textarea :ref="path.join('.')" rows="4" cols="50">{{ item.text }}</textarea>
-  </div>-->
+      <textarea ref="textUpdate" rows="15" style="width: 100%;">{{ item.text }}</textarea>
+    </div>
   </div>
 </template>
 
@@ -33,27 +29,22 @@
 
   export default {
     name: 'Text_',
-    props: ['item', 'path', 'data', 'page'],
+    props: ['item', 'path', 'data', 'page', 'editing'],
     data() {
       return {
-        editing: false
       }
     },
     components: {
-      //Carousel,
-      //Slide
     },
     methods: {
       makeHashId: function(obj) {
         return crypto.createHash('md5').update(JSON.stringify(obj)).digest('hex')
       },
-
-      change: function (event) {
-        if (this.editing) {
-          this.item.text = this.$refs[this.path.join('.')].value
-          this.updatePage(this.page)
+      getUpdateData: function() {
+        return {
+          type: "text",
+          text: this.$refs.textUpdate.value
         }
-        this.editing = !this.editing
       }
     }
 

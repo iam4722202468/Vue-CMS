@@ -11,58 +11,57 @@
 
 <template>
   <div>
-    <div v-if="admin">
-      New widget +
+    <div class="new-widget" v-if="admin">
+      <b-button variant="outline-primary">New widget +</b-button>
     </div>
     <div class="widget" :style="item.style">
-
       <div class="container0" v-if="item.type == 'container'">
         <div style="display: grid; flex-basis: 0;" v-bind:style="{ 'flex-grow': subItem.width || 1 }" v-for="subItem in item.contents" v-bind:key="makeHashId(subItem)">
-          <RenderWidget :item="subItem" />
+          <RenderWidget :editing="editing" :path="path" :data="data" :page="page" :item="subItem" />
         </div>
       </div>
 
       <div class="container0" v-if="item.type == 'container-vert'">
         <div v-for="subItem in item.contents" v-bind:key="makeHashId(subItem)">
-          <RenderWidget :item="subItem" />
+          <RenderWidget :editing="editing" :path="path" :data="data" :page="page" :item="subItem" />
         </div>
       </div>
 
-      <FormattedText :item="item" v-if="item.type == 'formatted-text'"/>
+      <FormattedText ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'formatted-text'"/>
 
-      <Tab :item="item" v-if="item.type == 'tab'">
+      <Tab ref="el" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'tab'">
         <b-tab v-for="subItem in item.contents" :title="subItem.title" v-bind:key="makeHashId(subItem)">
           <b-card-text v-for="subSubItem in subItem.contents" v-bind:key="makeHashId(subSubItem)">
-            <RenderWidget :item="subSubItem" />
+            <RenderWidget :editing="editing" :path="path" :data="data" :page="page" :item="subSubItem" />
           </b-card-text>
         </b-tab>
       </Tab>
 
-      <BR :item="item" v-if="item.type == 'br'"/>
-      <Text_ :item="item" v-if="item.type == 'text'"/>
-      <IMG :item="item" v-if="item.type == 'img'" style="height: 100%"/>
+      <BR ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'br'"/>
+      <Text_ ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'text'"/>
+      <IMG ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'img'"/>
 
-      <VID :item="item" v-if="item.type == 'vid'" style="height: 100%"/>
-      <Code :item="item" v-if="item.type == 'code'"/>
-      <Divider :item="item" v-if="item.type == 'divider'"/>
+      <VID ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'vid'" style="height: 100%"/>
+      <Code ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'code'"/>
+      <Divider ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'divider'"/>
 
-      <Carousel :item="item" v-if="item.type == 'carousel'"/>
-      <Masthead class="masthead" :item="item" v-if="item.type == 'masthead'"/>
-      <Feature :item="item" v-if="item.type == 'feature'"/>
+      <Carousel ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'carousel'"/>
+      <Masthead ref="el" :editing="editing" :path="path" :data="data" :page="page" class="masthead" :item="item" v-if="item.type == 'masthead'"/>
+      <Feature ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'feature'"/>
 
-      <Card :item="item" v-if="item.type == 'card'"/>
-      <CardGroup :item="item" v-if="item.type == 'card-group'"/>
-      <BJumbotron :item="item" v-if="item.type == 'jumbotron'"/>
+      <Card ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'card'"/>
+      <CardGroup ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'card-group'"/>
+      <BJumbotron ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'jumbotron'"/>
 
-      <div v-if="editing && admin" v-on:click="change" :item="item">
-        Save changes
+      <div class="new-widget" v-if="editing && admin" v-on:click="change" :item="item">
+        <b-button variant="outline-success">Save changes</b-button>
       </div>
-      <div v-if="!editing && admin" v-on:click="change" :item="item">
-        Edit this widget
+      <div class="new-widget" v-if="!editing && admin" v-on:click="change" :item="item">
+        <b-button variant="outline-danger">Edit this widget</b-button>
       </div>
     </div>
-    <div v-if="admin">
-      New widget +
+    <div class="new-widget" v-if="admin">
+      <b-button variant="outline-primary">New widget +</b-button>
     </div>
   </div>
 </template>
@@ -95,8 +94,8 @@ export default {
   props: ['item', 'path', 'data', 'page'],
   data() {
     return {
-      editing: false,
-      admin: false
+      admin: true,
+      editing: false
     }
   },
   components: {
@@ -125,7 +124,6 @@ export default {
     },
 
     updatePage: function(modified) {
-      console.log(modified)
       axios.post('/api/updatePage', 
         modified
       )
@@ -137,9 +135,30 @@ export default {
       });
     },
 
+    getObject: function(path, page) {
+      let reducePath = path.slice().reverse()
+      let currObj = page
+
+      while (reducePath.length > 0) {
+        if (currObj.body) {
+          currObj = currObj.body[reducePath.pop()]
+        } else if (currObj.contents) {
+          currObj = currObj.contents[reducePath.pop()]
+        } else {
+          currObj = currObj[reducePath.pop()]
+        }
+
+      }
+      return currObj;
+    },
+
     change: function (event) {
       if (this.editing) {
-        this.item.text = this.$refs[this.path.join('.')].value
+        const newData = this.$refs.el.getUpdateData();
+        const followedPath = this.getObject(this.path, this.page.page, newData);
+
+        Object.assign(followedPath, newData);
+        console.log(this.page)
         this.updatePage(this.page)
       }
       this.editing = !this.editing
@@ -153,4 +172,10 @@ export default {
   .carousel-caption {
     background-color: rgba(0,0,0,0.5);
   }
+
+  .new-widget {
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+
 </style>

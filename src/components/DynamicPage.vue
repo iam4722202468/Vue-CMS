@@ -20,11 +20,10 @@
     </div>
 
     <b-jumbotron
-      :style="jumbotronTitleStyleGen(pageData.bg)"
+      :style="jumbotronTitleStyleGen(pageData.masthead['image'], pageData.masthead['background-color'], pageData.masthead['text-color'], pageData.masthead['stroke-color'])"
       border-variant="success"
       :fluid=true
       :header="pageData.title" :lead="pageData.desc"
-      style="padding: 2em"
       class="jumbotron-title"
       >
       <hr v-if="pageData.links !== undefined">
@@ -156,18 +155,20 @@ export default {
       return crypto.createHash('md5').update(JSON.stringify(obj)).digest('hex')
     },
 
-    jumbotronTitleStyleGen: function(titleURL, backgroundColor, textColor) {
+    jumbotronTitleStyleGen: function(titleURL, backgroundColor, textColor, strokeColor) {
       if (titleURL) {
         return {
-          'background-image': `url(titleURL)`,
+          'background-image': `url(${titleURL})`,
+          'background-size': 'cover',
           'background-color': backgroundColor || "#f8f9fa",
           'color': textColor || "#f8f9fa",
-
+          '-webkit-text-stroke-color': strokeColor || 'white'
         }
       } else {
         return {
           'background-color': "#f8f9fa",
-          'color': '#343a40'
+          'color': '#343a40',
+          '-webkit-text-stroke-color': 'white'
         }
       }
     },
@@ -213,12 +214,12 @@ export default {
     padding-left: 3%;
 
     @media only screen and (max-width: 991px) {
-      padding-right: 4%;
+      padding-right: 0%;
       padding-left: 0%;
     }
 
     @media only screen and (max-width: 550px) {
-      padding-right: 20px;
+      padding-right: 0px;
       padding-left: 0px;
     }
 
@@ -239,39 +240,33 @@ export default {
 
     @media only screen and (max-width: 550px) {
       padding-right: 20px;
-      padding-left: 0px;
+      padding-left: 20px;
     }
   }
 
   .jumbotron {
-    padding-bottom: 0px;
-    background-color: black
+    padding-bottom: 6em;
+    padding-top: 6em;
+    background-color: black;
+    background-position: center
   }
 
   .jumbotron-title {
-    margin-left: 15%;
-    margin-right: 15%;
+    margin-left: 0%;
+    margin-right: 0%;
 
-    @media only screen and (max-width: 1300px) {
-      margin-left: 5%;
-      margin-right: 5%;
-    }
+
+    -webkit-text-stroke-width: 1px;
 
     @media only screen and (max-width: 991px) {
-      margin-left: 0%;
-      margin-right: 0%;
       text-align:center;
-    }
-
-    @media only screen and (max-width: 550px) {
-      margin-left: 0%;
-      margin-right: 0%;
     }
   }
 
   .flex-body {
     @media only screen and (max-width: 991px) {
       padding-left: 0px;
+      padding-right: 0px;
     }
 
     display: flex;
@@ -279,6 +274,7 @@ export default {
 
   .flex-body > * {
     margin-left: 20px;
+    margin-right: 20px;
   }
 
   .page {
