@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-menu hide-small">
-      <b-button
+      <!--b-button
         squared
         variant="outline-dark"
         class="menu-item"
@@ -12,24 +12,35 @@
         v-for="item in pageData.page"
         v-bind:key="makeHashId(item)">
         {{ item.title }}
-      </b-button>
+      </b-button--!>
       <!--<RenderTags :pageId="pageId" />-->
     </div>
+    <b-jumbotron
+      :style="jumbotronTitleStyleGen(pageData.masthead['image'], pageData.masthead['background-color'], pageData.masthead['text-color'], pageData.masthead['stroke-color'])"
+      border-variant="success"
+      :fluid=true
+      :header="pageData.title" :lead="pageData.desc"
+      class="jumbotron-title"
+      >
+      <hr v-if="pageData.links !== undefined">
+      <b-button v-for="link in pageData.links" v-bind:key="makeHashId(link)" style="margin-right:10px;" variant="success" :href="link.url">{{link.text}}</b-button>
+    </b-jumbotron>
+
     <div class="flex-body">
+      <div class="hide-medium side-menu">
+      </div>
+
       <div class="page-body">
-        <b-jumbotron
-          bg-variant="light" text-variant="dark" border-variant="success"
-          :fluid=true
-          :header="pageData.title" :lead="pageData.desc"
-          style="padding: 2em">
-
-          <hr v-if="pageData.links !== undefined">
-          <b-button v-for="link in pageData.links" v-bind:key="makeHashId(link)" style="margin-right:10px;" variant="success" :href="link.url">{{link.text}}</b-button>
-        </b-jumbotron>
-
-        <div :id="pageEntry.title" class="scroll-item" v-for="pageEntry in pageData.page">
+        <div :id="pageEntry.title" class="scroll-item" v-for="pageEntry, pageEntryIndex in pageData.page">
           <h2>{{ pageEntry.title }}</h2>
-          <RenderWidgets :data="pageEntry.body"></RenderWidgets>
+          <RenderWidgets :data="pageEntry.body" :dataIndex="pageEntryIndex" :page="pageData"></RenderWidgets>
+        </div>
+      </div>
+
+      <div class="hide-medium side-menu">
+        <!--RepoStats v-if="gitCommitData" :data="gitCommitData" /-->
+        <div style="margin: 10px; margin-bottom: -20px; margin-right: 0px;">
+          <!--doughnut-chart style="padding-top: 50px" :repoName="repoName" /-->
         </div>
       </div>
     </div>
@@ -90,6 +101,31 @@ export default {
   methods: {
     makeHashId: function(obj) {
       return crypto.createHash('md5').update(JSON.stringify(obj)).digest('hex')
+    },
+
+    jumbotronTitleStyleGen: function(titleURL, backgroundColor, textColor, strokeColor) {
+      let addIn = {}
+
+      if (strokeColor) {
+        addIn['-webkit-text-stroke-width'] = '1px';
+        addIn['-webkit-text-stroke-color'] = strokeColor;
+      }
+
+      if (titleURL) {
+        return {
+          'background-image': `url(${titleURL})`,
+          'background-size': 'cover',
+          'background-color': (backgroundColor || "#f8f9fa") + ' !important',
+          'color': (textColor || "#f8f9fa") + ' !important',
+          ...addIn
+        }
+      } else {
+        return {
+          'background-color': "#f8f9fa !important",
+          'color': '#343a40 !important',
+          ...addIn
+        }
+      }
     },
 
     scrollToAnchor(e) {

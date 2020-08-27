@@ -16,8 +16,8 @@
     </div>
     <div class="widget" :style="item.style">
       <div class="container0" v-if="item.type == 'container'">
-        <div style="display: grid; flex-basis: 0;" v-bind:style="{ 'flex-grow': subItem.width || 1 }" v-for="subItem in item.contents" v-bind:key="makeHashId(subItem)">
-          <RenderWidget :editing="editing" :path="path" :data="data" :page="page" :item="subItem" />
+        <div style="display: grid; flex-basis: 0;" v-bind:style="{ 'flex-grow': subItem.width || 1 }" v-for="subItem, itemIndex in item.contents" v-bind:key="makeHashId(subItem)">
+          <RenderWidget :editing="editing" :path="path.concat([itemIndex])" :data="data" :page="page" :item="subItem" />
         </div>
       </div>
 
@@ -94,7 +94,7 @@ export default {
   props: ['item', 'path', 'data', 'page'],
   data() {
     return {
-      admin: true,
+      admin: false,
       editing: false
     }
   },
@@ -124,15 +124,15 @@ export default {
     },
 
     updatePage: function(modified) {
-      axios.post('/api/updatePage', 
-        modified
-      )
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+//      axios.post('/api/updatePage', 
+//        modified
+//      )
+//      .then(function (response) {
+//        console.log(response);
+//      })
+//      .catch(function (error) {
+//        console.log(error);
+//      });
     },
 
     getObject: function(path, page) {
@@ -156,6 +156,8 @@ export default {
       if (this.editing) {
         const newData = this.$refs.el.getUpdateData();
         const followedPath = this.getObject(this.path, this.page.page, newData);
+
+        console.log(followedPath);
 
         Object.assign(followedPath, newData);
         console.log(this.page)

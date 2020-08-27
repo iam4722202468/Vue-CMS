@@ -156,19 +156,26 @@ export default {
     },
 
     jumbotronTitleStyleGen: function(titleURL, backgroundColor, textColor, strokeColor) {
+      let addIn = {}
+
+      if (strokeColor) {
+        addIn['-webkit-text-stroke-width'] = '1px';
+        addIn['-webkit-text-stroke-color'] = strokeColor;
+      }
+
       if (titleURL) {
         return {
           'background-image': `url(${titleURL})`,
           'background-size': 'cover',
-          'background-color': backgroundColor || "#f8f9fa",
-          'color': textColor || "#f8f9fa",
-          '-webkit-text-stroke-color': strokeColor || 'white'
+          'background-color': (backgroundColor || "#f8f9fa") + ' !important',
+          'color': (textColor || "#f8f9fa") + ' !important',
+          ...addIn
         }
       } else {
         return {
-          'background-color': "#f8f9fa",
-          'color': '#343a40',
-          '-webkit-text-stroke-color': 'white'
+          'background-color': "#f8f9fa !important",
+          'color': '#343a40 !important',
+          ...addIn
         }
       }
     },
@@ -254,9 +261,6 @@ export default {
   .jumbotron-title {
     margin-left: 0%;
     margin-right: 0%;
-
-
-    -webkit-text-stroke-width: 1px;
 
     @media only screen and (max-width: 991px) {
       text-align:center;
