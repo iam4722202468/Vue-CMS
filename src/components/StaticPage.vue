@@ -1,20 +1,5 @@
 <template>
   <div class="page">
-    <div class="page-menu hide-small">
-      <!--b-button
-        squared
-        variant="outline-dark"
-        class="menu-item"
-        v-on:keyup.enter="scrollToAnchor"
-        tabindex=0
-        v-on:click="scrollToAnchor"
-        :anchor="item.title"
-        v-for="item in pageData.page"
-        v-bind:key="makeHashId(item)">
-        {{ item.title }}
-      </b-button--!>
-      <!--<RenderTags :pageId="pageId" />-->
-    </div>
     <b-jumbotron
       :style="jumbotronTitleStyleGen(pageData.masthead['image'], pageData.masthead['background-color'], pageData.masthead['text-color'], pageData.masthead['stroke-color'])"
       border-variant="success"
