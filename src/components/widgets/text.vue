@@ -15,7 +15,7 @@
 
 <template>
   <div>
-    <div v-if="!editing">
+    <div class="text" v-if="!editing">
       {{ item.text }}
     </div>
     <div v-else>

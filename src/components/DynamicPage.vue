@@ -43,9 +43,9 @@
 
       <div class="hide-medium side-menu">
         <!--RepoStats v-if="gitCommitData" :data="gitCommitData" /-->
-        <div style="margin: 10px; margin-bottom: -20px; margin-right: 0px;">
-          <!--doughnut-chart style="padding-top: 50px" :repoName="repoName" /-->
-        </div>
+        <!--div style="margin: 10px; margin-bottom: -20px; margin-right: 0px;">
+          <doughnut-chart style="padding-top: 50px" :repoName="repoName">
+        </div!-->
       </div>
     </div>
   </div>
@@ -196,15 +196,12 @@ export default {
 <style lang="scss" scoped>
   .hide-small {
     @media only screen and (max-width: 991px) {
-      visibility: hidden;
-      width: 0px;
+      display: none;
     }
   }
 
   .hide-medium {
     @media only screen and (max-width: 1300px) {
-      visibility: hidden;
-      width: 0px;
       display: none;
     }
   }

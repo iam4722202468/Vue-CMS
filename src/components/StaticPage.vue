@@ -23,7 +23,7 @@
       class="jumbotron-title"
       >
       <hr v-if="pageData.links !== undefined">
-      <b-button v-for="link in pageData.links" v-bind:key="makeHashId(link)" style="margin-right:10px;" variant="success" :href="link.url">{{link.text}}</b-button>
+      <b-button v-for="link in pageData.links" v-bind:key="makeHashId(link)" style="margin-right:10px; -webkit-text-stroke: rgba(0,0,0,0)" variant="success" :href="link.url">{{link.text}}</b-button>
     </b-jumbotron>
 
     <div class="flex-body">
@@ -38,9 +38,9 @@
       </div>
 
       <div class="hide-medium side-menu">
-        <!--RepoStats v-if="gitCommitData" :data="gitCommitData" /-->
+        <!--RepoStats v-if="gitCommitData" :data="gitCommitData">
         <div style="margin: 10px; margin-bottom: -20px; margin-right: 0px;">
-          <!--doughnut-chart style="padding-top: 50px" :repoName="repoName" /-->
+          <doughnut-chart style="padding-top: 50px" :repoName="repoName" /-->
         </div>
       </div>
     </div>
@@ -144,15 +144,13 @@ export default {
 <style lang="scss" scoped>
   .hide-small {
     @media only screen and (max-width: 992px) {
-      visibility: hidden;
-      width: 0px;
+      display: none;
     }
   }
 
   .hide-medium {
     @media only screen and (max-width: 1300px) {
-      visibility: hidden;
-      width: 0px;
+      display: none;
     }
   }
 

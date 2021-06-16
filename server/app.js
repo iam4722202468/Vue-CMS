@@ -33,6 +33,7 @@ app.get('/api/getUsername', (req, res) =>
 app.get('/api/getPage', (req, res) => {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
+    console.log(req.query.pageId);
     var dbo = db.db('alexpWebsite');
     dbo.collection('pages')
       .findOne({ pageId: req.query.pageId }, function(err, result) {

@@ -46,6 +46,7 @@
       <Divider ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'divider'"/>
 
       <Carousel ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'carousel'"/>
+      <Carousel ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'b-carousel'"/>
       <Masthead ref="el" :editing="editing" :path="path" :data="data" :page="page" class="masthead" :item="item" v-if="item.type == 'masthead'"/>
       <Feature ref="el" :editing="editing" :path="path" :data="data" :page="page" :item="item" v-if="item.type == 'feature'"/>
 
