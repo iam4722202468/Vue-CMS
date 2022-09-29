@@ -22,7 +22,7 @@
     "cookie-parser": "^1.4.4",
     "copy-webpack-plugin": "^5.1.1",
     "crypto": "^1.0.1",
-    "d3": "^5.7.0",
+    "d3": "^7.6.1",
     "devicon-2.2": "^2.2.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
